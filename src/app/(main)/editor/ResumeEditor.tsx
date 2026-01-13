@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import GeneralInfoForms from "./forms/generalInfoForms";
 
 const ResumeEditor = () => {
   return (
@@ -13,7 +14,9 @@ const ResumeEditor = () => {
       </header>
       <main className="relative flex-1 overflow-y-auto">
         <div className="absolute bottom-0 top-0 flex w-full">
-          <div className="w-full md:w-1/2">left</div>
+          <div className="w-full md:w-1/2 p-3">
+            <GeneralInfoForms />
+          </div>
           <div className="hidden md:block md:border-r" />
           <div className="hidden w-1/2 md:flex">right</div>
         </div>
