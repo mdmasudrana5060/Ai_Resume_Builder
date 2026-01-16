@@ -2,10 +2,17 @@ import {
   generalInfoSchema,
   GeneralInfoValues,
 } from "@/src/components/Shared/validation";
-import { Form, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { FormControl, FormField, FormItem } from "@/components/ui/form";
+import {
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  Form,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
 
 const GeneralInfoForms = () => {
   const form = useForm<GeneralInfoValues>({
@@ -30,6 +37,7 @@ const GeneralInfoForms = () => {
             name="title"
             render={({ field }) => (
               <FormItem>
+                <FormLabel>Project Name</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -37,6 +45,21 @@ const GeneralInfoForms = () => {
                     autoFocus
                   ></Input>
                 </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Input {...field} placeholder="A resume for my next job" />
+                </FormControl>
+                <FormDescription>
+                  Describe what this resume is for
+                </FormDescription>
               </FormItem>
             )}
           />
