@@ -18,11 +18,11 @@ const ACCEPTED_IMAGE_TYPES = [
 export const personalInfoSchema = z.object({
   firstName: optionalString,
   lastName: optionalString,
-  jobTitle: optionalString,
-  city: optionalString,
-  country: optionalString,
   phone: optionalString,
   email: optionalString,
+  jobTitle: optionalString,
+  country: optionalString,
+  city: optionalString,
 
   photo: z
     .instanceof(File)

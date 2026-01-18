@@ -1,9 +1,24 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import GeneralInfoForms from "./forms/generalInfoForms";
+
+import { useSearchParams } from "next/navigation";
+import { steps } from "./steps";
+
+import Breadcrumbs from "./Breadcrumbs";
 
 const ResumeEditor = () => {
+  const searchParms = useSearchParams();
+  const currentStep = searchParms.get("step") || steps[0].key;
+  const setStep = (key: string) => {
+    const newSearchParams = new URLSearchParams(searchParms);
+    newSearchParams.set("step", key);
+    window.history.pushState(null, "", `?${newSearchParams.toString()}`);
+  };
+  const FormComponent = steps.find(
+    (step) => step.key === currentStep,
+  )?.component;
+
   return (
     <div className="flex min-h-screen flex-col">
       <header className="space-y-1.5 border-b px-3 py-5 text-center">
@@ -16,7 +31,8 @@ const ResumeEditor = () => {
       <main className="relative flex-1 overflow-y-auto">
         <div className="absolute bottom-0 top-0 flex w-full">
           <div className="w-full md:w-1/2 p-3">
-            <GeneralInfoForms />
+            <Breadcrumbs currentStep={currentStep} setCurrentStep={setStep} />
+            {FormComponent && <FormComponent />}
           </div>
           <div className="hidden md:block md:border-r" />
           <div className="hidden w-1/2 md:flex">right</div>
