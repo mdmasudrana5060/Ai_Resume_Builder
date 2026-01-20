@@ -7,6 +7,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { EditorFormProps } from "@/src/components/Shared/type";
 import {
   personalInfoSchema,
   PersonalInfoValues,
@@ -15,23 +16,24 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-const PersonalInfoForm = () => {
+const PersonalInfoForm = ({ resumeData, setResumeData }: EditorFormProps) => {
   const form = useForm<PersonalInfoValues>({
     resolver: zodResolver(personalInfoSchema),
     defaultValues: {
-      firstName: "",
-      lastName: "",
-      phone: "",
-      email: "",
-      jobTitle: "",
-      country: "",
-      city: "",
+      firstName: resumeData.firstName || "",
+      lastName: resumeData.lastName || "",
+      phone: resumeData.phone || "",
+      email: resumeData.email || "",
+      jobTitle: resumeData.jobTitle || "",
+      country: resumeData.country || "",
+      city: resumeData.city || "",
     },
   });
   useEffect(() => {
-    const { unsubscribe } = form.watch(async () => {
+    const { unsubscribe } = form.watch(async (values) => {
       const isValid = await form.trigger();
       if (!isValid) return;
+      setResumeData({ ...resumeData, ...values });
     });
 
     return unsubscribe;
@@ -124,7 +126,7 @@ const PersonalInfoForm = () => {
             name="jobTitle"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email</FormLabel>
+                <FormLabel>Job Title</FormLabel>
                 <FormControl>
                   <Input {...field} />
                 </FormControl>

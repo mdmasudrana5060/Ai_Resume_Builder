@@ -13,15 +13,26 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
+import { EditorFormProps } from "@/src/components/Shared/type";
+import { useEffect } from "react";
 
-const GeneralInfoForms = () => {
+const GeneralInfoForms = ({ resumeData, setResumeData }: EditorFormProps) => {
   const form = useForm<GeneralInfoValues>({
     resolver: zodResolver(generalInfoSchema),
     defaultValues: {
-      title: "",
-      description: "",
+      title: resumeData.title || "",
+      description: resumeData.description || "",
     },
   });
+  useEffect(() => {
+    const { unsubscribe } = form.watch(async (values) => {
+      const isValid = await form.trigger();
+      if (!isValid) return;
+      setResumeData({ ...resumeData, ...values });
+    });
+
+    return unsubscribe;
+  }, [form]);
   return (
     <div className="mx-auto max-w-xl space-y-6">
       <div className="space-y-1.5 text-center">

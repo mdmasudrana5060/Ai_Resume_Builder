@@ -1,12 +1,14 @@
 "use client";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
+
 import { useSearchParams } from "next/navigation";
 import { steps } from "./steps";
 import Breadcrumbs from "./Breadcrumbs";
 import Footer from "./Footer";
+import { useState } from "react";
+import { ResumeValues } from "@/src/components/Shared/validation";
 
 const ResumeEditor = () => {
+  const [resumeData, setResumeData] = useState<ResumeValues>({});
   const searchParms = useSearchParams();
   const currentStep = searchParms.get("step") || steps[0].key;
   const setStep = (key: string) => {
@@ -31,10 +33,17 @@ const ResumeEditor = () => {
         <div className="absolute bottom-0 top-0 flex w-full">
           <div className="w-full md:w-1/2 p-3 space-y-6">
             <Breadcrumbs currentStep={currentStep} setCurrentStep={setStep} />
-            {FormComponent && <FormComponent />}
+            {FormComponent && (
+              <FormComponent
+                resumeData={resumeData}
+                setResumeData={setResumeData}
+              />
+            )}
           </div>
           <div className="hidden md:block md:border-r" />
-          <div className="hidden w-1/2 md:flex">right</div>
+          <div className="hidden w-1/2 md:flex">
+            <pre>{JSON.stringify(resumeData, null, 2)}</pre>
+          </div>
         </div>
       </main>
       <Footer currentStep={currentStep} setCurrentStep={setStep} />
