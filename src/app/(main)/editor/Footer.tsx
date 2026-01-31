@@ -12,7 +12,7 @@ const Footer = ({ currentStep, setCurrentStep }: FooterProps) => {
   const previousStep = steps[currentIndex - 1]?.key;
   const nextStep = steps[currentIndex + 1]?.key;
   return (
-    <footer className="w-full border-t px-3 py-5">
+    <footer className="w-full border-t px-3 py-5 mt-2">
       <div className="mx-auto flex max-w-7xl flex-wrap justify-between gap-2">
         <div className="flex items-center gap-2">
           <Button
@@ -26,6 +26,7 @@ const Footer = ({ currentStep, setCurrentStep }: FooterProps) => {
           </Button>
           <Button
             onClick={nextStep ? () => setCurrentStep(nextStep) : undefined}
+            disabled={!nextStep}
           >
             Next Step
           </Button>
