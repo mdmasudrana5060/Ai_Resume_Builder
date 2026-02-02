@@ -6,6 +6,7 @@ import Breadcrumbs from "./Breadcrumbs";
 import Footer from "./Footer";
 import { useState } from "react";
 import { ResumeValues } from "@/src/components/Shared/validation";
+import ResumePreviewSection from "./resumePreviewSection";
 
 const ResumeEditor = () => {
   const [resumeData, setResumeData] = useState<ResumeValues>({});
@@ -41,9 +42,10 @@ const ResumeEditor = () => {
             )}
           </div>
           <div className="hidden md:block md:border-r" />
-          <div className="hidden w-1/2 md:flex">
-            <pre>{JSON.stringify(resumeData, null, 2)}</pre>
-          </div>
+          <ResumePreviewSection
+            resumeData={resumeData}
+            setResumeData={setResumeData}
+          />
         </div>
       </main>
       <Footer currentStep={currentStep} setCurrentStep={setStep} />
