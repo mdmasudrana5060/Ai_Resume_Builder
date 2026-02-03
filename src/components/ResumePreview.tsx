@@ -1,8 +1,9 @@
 import { cn } from "@/lib/utils";
 import { ResumeValues } from "./Shared/validation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import useDimensions from "../hooks/useDimensions";
 import Image from "next/image";
+import { formatDate, isValid } from "date-fns";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -31,6 +32,8 @@ const ResumePreview = ({
         }}
       >
         <PersonalInfoHeader resumeData={resumeData} />
+        <SummarySection resumeData={resumeData} />
+        <WorkExperienceSection resumeData={resumeData} />
       </div>
     </div>
   );
@@ -87,5 +90,53 @@ function PersonalInfoHeader({ resumeData }: ResumeSectionProps) {
         </div>
       </div>
     </div>
+  );
+}
+function SummarySection({ resumeData }: ResumeSectionProps) {
+  const { summary } = resumeData;
+  if (!summary) return null;
+  return (
+    <>
+      <hr className="border-2" />
+      <div className="space-y-3 break-inside-avoid">
+        <p className="text-lg font-semibold ">Professional Profile</p>
+        <div className="whitespace-pre-line text-sm">{summary}</div>
+      </div>
+    </>
+  );
+}
+
+function WorkExperienceSection({ resumeData }: ResumeSectionProps) {
+  const { workExperiences } = resumeData;
+  const workExperiencesNotEmpty = workExperiences?.filter(
+    (exp) => Object.values(exp).filter(Boolean).length > 0,
+  );
+  if (!workExperiencesNotEmpty?.length) return null;
+  return (
+    <>
+      <hr className="border-2" />
+      <div className="space-y-3">
+        <p className="text-lg font-semibold">Work Experience</p>
+        {workExperiencesNotEmpty.map((exp, index) => (
+          <div key={index} className="break-inside-avoid space-y-1">
+            <div className="flex items-center justify-between text-sm font-semibold">
+              <span>{exp.position}</span>
+              {exp.startDate && (
+                <span>
+                  {formatDate(exp.startDate, "dd/MM/yyyy")}-{" "}
+                  {exp.endDate && isValid(new Date(exp.endDate))
+                    ? formatDate(exp.endDate, "dd/MM/yyyy")
+                    : "Present"}
+                </span>
+              )}
+            </div>
+            <p className="text-sm font-semibold">{exp.company}</p>
+            <div className="whitespace-pre-line text-sm ">
+              {exp.description}
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }
