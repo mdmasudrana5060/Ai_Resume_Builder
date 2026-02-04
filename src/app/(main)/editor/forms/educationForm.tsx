@@ -5,6 +5,7 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
+  Form,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { EditorFormProps } from "@/src/components/Shared/type";
@@ -15,7 +16,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { GripHorizontal } from "lucide-react";
 import { useEffect } from "react";
-import { Form, useFieldArray, useForm, UseFormReturn } from "react-hook-form";
+import { useFieldArray, useForm, UseFormReturn } from "react-hook-form";
 
 const EducationForm = ({ resumeData, setResumeData }: EditorFormProps) => {
   const form = useForm<EducationValues>({

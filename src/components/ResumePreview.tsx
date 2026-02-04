@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef } from "react";
 import useDimensions from "../hooks/useDimensions";
 import Image from "next/image";
 import { formatDate, isValid } from "date-fns";
+import { Badge } from "@/components/ui/badge";
 
 interface ResumePreviewProps {
   resumeData: ResumeValues;
@@ -34,6 +35,8 @@ const ResumePreview = ({
         <PersonalInfoHeader resumeData={resumeData} />
         <SummarySection resumeData={resumeData} />
         <WorkExperienceSection resumeData={resumeData} />
+        <EducationSection resumeData={resumeData} />
+        <SkillSection resumeData={resumeData} />
       </div>
     </div>
   );
@@ -136,6 +139,57 @@ function WorkExperienceSection({ resumeData }: ResumeSectionProps) {
             </div>
           </div>
         ))}
+      </div>
+    </>
+  );
+}
+function EducationSection({ resumeData }: ResumeSectionProps) {
+  const { educations } = resumeData;
+  const educationNotEmpty = educations?.filter(
+    (edu) => Object.values(edu).filter(Boolean).length > 0,
+  );
+  if (!educationNotEmpty?.length) return null;
+  return (
+    <>
+      <hr className="border-2" />
+      <div className="space-y-3">
+        <p className="text-lg font-semibold">Education</p>
+        {educationNotEmpty.map((edu, index) => (
+          <div key={index} className="break-inside-avoid space-y-1">
+            <div className="flex items-center justify-between text-sm font-semibold">
+              <span>{edu.degree}</span>
+              {edu.startDate && (
+                <span>
+                  {formatDate(edu.startDate, "MM/yyyy")}
+                  {edu.endDate && ` - ${formatDate(edu.endDate, "MM/yyyy")}`}
+                </span>
+              )}
+            </div>
+            <p className="text-sm font-semibold">{edu.school}</p>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+function SkillSection({ resumeData }: ResumeSectionProps) {
+  const { skills } = resumeData;
+  if (!skills?.length) return null;
+  return (
+    <>
+      <hr className="border-2" />
+      <div className="break-inside-avoid space-y-3">
+        <p className="text-lg font-semibold">Skills</p>
+        <div className="flex break-inside-avoid flex-wrap gap-2">
+          {skills.map((skill, index) => (
+            <Badge
+              key={index}
+              className="bg-black hover:bg-black text-white rounded-md"
+            >
+              {skill}
+            </Badge>
+          ))}
+        </div>
       </div>
     </>
   );
