@@ -12,27 +12,34 @@ interface ColorPickerProps {
   color: Color | undefined;
   onChange: ColorChangeHandler;
 }
+
 const ColorPicker = ({ color, onChange }: ColorPickerProps) => {
   const [showPopover, setShowPopover] = useState(false);
+
   return (
     <Popover open={showPopover} onOpenChange={setShowPopover}>
       <PopoverTrigger asChild>
         <Button
-          variant="ghost"
+          variant="outline"
           size="icon"
           title="Change resume color"
+          className="m-1  border-gray-300 bg-white hover:bg-gray-50"
           onClick={() => setShowPopover(true)}
         >
-          <PaletteIcon className="size-5" />
+          <PaletteIcon className="size-5 text-gray-700" />
         </Button>
       </PopoverTrigger>
       <PopoverContent
         className="border-none bg-transparent shadow-none"
         align="end"
+        side="bottom"
+        sideOffset={5}
+        collisionPadding={10}
       >
         <TwitterPicker color={color} onChange={onChange} triangle="top-right" />
       </PopoverContent>
     </Popover>
   );
 };
+
 export default ColorPicker;
