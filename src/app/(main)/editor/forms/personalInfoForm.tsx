@@ -38,7 +38,7 @@ const PersonalInfoForm = ({ resumeData, setResumeData }: EditorFormProps) => {
     });
 
     return unsubscribe;
-  }, [form, resumeData, setResumeData]);
+  }, [form, setResumeData, resumeData]);
 
   const photoInputRef = useRef<HTMLInputElement>(null);
   return (
@@ -76,6 +76,7 @@ const PersonalInfoForm = ({ resumeData, setResumeData }: EditorFormProps) => {
                       if (photoInputRef.current) {
                         photoInputRef.current.value = "";
                       }
+                      setResumeData({ ...resumeData, photo: null });
                     }}
                   >
                     Remove
