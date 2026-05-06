@@ -8,11 +8,17 @@ import { useState } from "react";
 import { ResumeValues } from "@/src/components/Shared/validation";
 import ResumePreviewSection from "./resumePreviewSection";
 import { cn } from "@/lib/utils";
+import { useAutoSaveResume } from "./useAutoSaveResume";
+import { useUnloadWarning } from "@/src/hooks/useUnloadWarning";
 
 const ResumeEditor = () => {
   const [resumeData, setResumeData] = useState<ResumeValues>({});
   const [showSmResumePreview, setShowSmResumePreview] = useState(false);
   const searchParms = useSearchParams();
+
+  const { isSaving, hasUnsavedChanges } = useAutoSaveResume(resumeData);
+  useUnloadWarning(hasUnsavedChanges);
+
   const currentStep = searchParms.get("step") || steps[0].key;
   const setStep = (key: string) => {
     const newSearchParams = new URLSearchParams(searchParms);
@@ -61,6 +67,7 @@ const ResumeEditor = () => {
         setCurrentStep={setStep}
         showSmResumePreview={showSmResumePreview}
         setShowSmResumePreview={setShowSmResumePreview}
+        isSaving={isSaving}
       />
     </div>
   );
