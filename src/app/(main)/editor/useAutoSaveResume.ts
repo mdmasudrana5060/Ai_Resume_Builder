@@ -3,6 +3,7 @@ import useDebounce from "@/src/hooks/useDebounce";
 import { useEffect, useState } from "react";
 
 export const useAutoSaveResume = (resumeData: ResumeValues) => {
+  console.log(resumeData, "resumeData from useAutoSaveResume");
   const debouncedResumeData = useDebounce(resumeData, 1500);
   const [lastSavedData, setLastSavedData] = useState(
     structuredClone(resumeData),
@@ -20,7 +21,7 @@ export const useAutoSaveResume = (resumeData: ResumeValues) => {
     if (hasUnsavedChanges && debouncedResumeData && !isSaving) {
       save();
     }
-  }, [debouncedResumeData]);
+  }, [debouncedResumeData, isSaving, lastSavedData]);
   return {
     isSaving,
     hasUnsavedChanges:

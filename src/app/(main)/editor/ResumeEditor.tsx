@@ -17,6 +17,7 @@ const ResumeEditor = () => {
   const searchParms = useSearchParams();
 
   const { isSaving, hasUnsavedChanges } = useAutoSaveResume(resumeData);
+  console.log(isSaving, "isSaving from ResumeEditor");
   useUnloadWarning(hasUnsavedChanges);
 
   const currentStep = searchParms.get("step") || steps[0].key;
